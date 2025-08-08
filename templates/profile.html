@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-image: url("{{ url_for('static', filename='Nnchlntchil.jpg') }}");
+            background-size: 100%;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #1DB954;
+        }
+        p {
+            color: #fff;
+        }
+        .track {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .track img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .track-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .playlist {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .playlist img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .playlist-title {
+            font-weight: bold;
+            color: #1DB954;
+        }
+        .playlist-details {
+            margin-left: 20px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .spotify-button {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .logout-button{
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spotify Profile</h1>
+    <div class="search-bar">
+        <form action="{{ url_for('search') }}" method="get">
+            <input type="text" name="query" placeholder="Search for tracks, albums, or artists..." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <img src="{{ pfp | default(url_for('static', filename='default_pfp.jpg')) }}" 
+     alt="Profile Picture" 
+     style="width:150px;height:150px;border-radius:50%;">
+    <p>Welcome {{ user['display_name'] }}!</p>
+    <p>Email: {{ user['email'] }}</p>
+    <p>Country: {{ user['country'] }}</p>
+    <p>Followers: {{ user['followers']['total'] }}</p>
+
+    <h2>Your Top 10 Records</h2>
+    <div>
+        {% for track in top_tracks['items'] %}
+            <div class="track">
+                <img src="{{ track['album']['images'][0]['url'] }}" alt="Album Art">
+                <div class="track-info">
+                    <span>{{ track['name'] }} by {{ track['artists'][0]['name'] }}</span>
+                    <span>Length: {{ track['length'] }}</span> 
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Your 12 Most Recently Saved Records</h2>
+    <div>
+        {% for track in saved_tracks['items'] %}
+            <div class="track">
+                <img src="{{ track['track']['album']['images'][0]['url'] }}" alt="Album Art">
+                <div class="track-info">
+                    <span>{{ track['track']['name'] }} by {{ track['track']['artists'][0]['name'] }}</span>
+                    <span>Length: {{ ['track']['length'] }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Your 20 Most Recently Played Playlists</h2>
+    <div>
+        {% for playlist in user_playlists['items'] %}
+            <div class="playlist">
+                <img src="{{ playlist['images'][0]['url'] }}" alt="Playlist Art">
+                <div class="playlist-info">
+                    <span class="playlist-title">{{ playlist['name'] }} by {{ playlist['owner']['display_name'] }}</span>
+                    <span class="playlist-details">Songs: {{ playlist['tracks']['total'] }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="button-container">
+        <button class="spotify-button" onclick="redirectToIndexPage()">Go to Spotify Index Page</button>
+        <button class="logout-button" onclick="redirectToSpotifyLogout()">Logout from Spotify</button>
+    </div>
+
+    <script>
+        function redirectToIndexPage() {
+            window.location.href = "{{ url_for('index') }}"; //use Flask's url_for function for redirection
+        }
+        function redirectToSpotifyLogout() {
+            window.location.href = "/logout";
+        }
+    </script>
+</body>
+</html>

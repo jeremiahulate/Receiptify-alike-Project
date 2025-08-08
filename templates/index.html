@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #1DB954;
+        }
+        p {
+            color: #333;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .spotify-button {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spotify Info</h1>
+    <div class="button-container">
+        <button class="spotify-button" onclick="authenticateSpotify()">Authenticate with Spotify</button>
+        <button class="spotify-button" onclick="redirectToSpotify()">Go to Spotify Web Player</button>
+    </div>
+    <script>
+        function authenticateSpotify(){
+        window.location.href = "/authenticate";
+        }
+        function redirectToSpotify() {
+                window.location.href = 'https://open.spotify.com/';
+        }
+    </script>
+</body>
+</html>

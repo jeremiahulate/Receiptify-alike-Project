@@ -1,0 +1,4 @@
+HOW TO START:
+    1) start a wsl terminal with redis server
+    2) start ngrok server (change redirect_uri in config.py)
+    3) change the url name on spotify for developers
